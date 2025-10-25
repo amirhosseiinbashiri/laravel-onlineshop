@@ -3,10 +3,10 @@
 @section('title', 'داشبورد')
 
 @section('content')
+
     <div class="">
         <h1 class="">👋 خوش آمدی {{ $user->username }}</h1>
         <p class="">شما وارد حساب کاربری خود شده‌اید.</p>
-
         <form action="{{ route('logout') }}" method="POST">
             @csrf
             <button type="submit">
@@ -19,7 +19,7 @@
 
         @if(!auth()->user()->profile)
             <p>شما هنوز پروفایل خود را ایجاد نکرده‌اید.</p>
-            <a href="{{ route('dashboard.profile.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded">ایجاد پروفایل</a>
+            <a href="{{ route('dashboard.profile.create') }}">ایجاد پروفایل</a>
         @else
             @php $p = auth()->user()->profile; @endphp
             <div>
@@ -42,4 +42,40 @@
             </div>
         @endif
     </div>
+
+    @if (!$addresses)
+        <div>
+            <p class="mb-2">هنوز هیچ آدرسی ثبت نکرده‌اید.</p>
+            <a href="{{ route('dashboard.addresses.create') }}">
+                ایجاد آدرس جدید
+            </a>
+        </div>
+    @else
+        <div>
+            <h3>آدرس‌های شما</h3>
+            <a href="{{ route('dashboard.addresses.create') }}">
+                افزودن آدرس جدید
+            </a>
+        </div>
+
+        @foreach ($addresses as $address)
+            <div>
+                <p><strong>استان:</strong> {{ $address->province }}</p>
+                <p><strong>شهر:</strong> {{ $address->city }}</p>
+                <p><strong>کد پستی:</strong> {{ $address->postal_code ?? '---' }}</p>
+                <p><strong>آدرس:</strong> {{ $address->address }}</p>
+                <div>
+                    <a href="{{ route('dashboard.addresses.edit', $address) }}">ویرایش</a>
+                    <form method="POST" action="{{ route('dashboard.addresses.destroy', $address) }}">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit"
+                            onclick="return confirm('آیا از حذف این آدرس مطمئن هستید؟')">
+                            حذف
+                        </button>
+                    </form>
+                </div>
+            </div>
+        @endforeach
+    @endif
 @endsection

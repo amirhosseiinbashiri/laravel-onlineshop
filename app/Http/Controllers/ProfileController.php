@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Profile;
 use Illuminate\Support\Facades\Storage;
+
 
 class ProfileController extends Controller
 {
@@ -29,7 +31,6 @@ class ProfileController extends Controller
             'bio' => 'nullable|string|max:500',
         ]);
 
-        // ذخیره آواتار اگر آپلود شده
         if ($request->hasFile('avatar')) {
             $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
         }
@@ -66,7 +67,6 @@ class ProfileController extends Controller
             'bio' => 'nullable|string|max:500',
         ]);
 
-        // اگر تصویر جدید اومد، قدیمی حذف بشه
         if ($request->hasFile('avatar')) {
             if ($profile->avatar) {
                 Storage::disk('public')->delete($profile->avatar);
@@ -79,9 +79,6 @@ class ProfileController extends Controller
         return redirect()->route('dashboard')->with('success', 'پروفایل با موفقیت ویرایش شد!');
     }
 
-    /**
-     * حذف آواتار کاربر
-     */
     public function destroyAvatar()
     {
         $profile = auth()->user()->profile;
@@ -90,10 +87,8 @@ class ProfileController extends Controller
             return back()->withErrors('شما آواتاری برای حذف ندارید.');
         }
 
-        // حذف فایل از storage
         Storage::disk('public')->delete($profile->avatar);
 
-        // حذف از دیتابیس
         $profile->update(['avatar' => null]);
 
         return back()->with('success', 'آواتار با موفقیت حذف شد.');
@@ -115,18 +110,14 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
 
-        // حذف آواتار در صورت وجود
         if ($user->profile && $user->profile->avatar) {
             Storage::disk('public')->delete($user->profile->avatar);
         }
 
-        // حذف پروفایل
         $user->profile()->delete();
 
-        // حذف خود کاربر
         $user->delete();
 
-        // خروج از سیستم
         auth()->logout();
 
         return redirect('/')

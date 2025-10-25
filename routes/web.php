@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Customer\AddressController;
 use App\Http\Controllers\Customer\DashboardController;
 use App\Http\Controllers\ProfileController;
 
@@ -18,9 +19,9 @@ Route::middleware('guest')->prefix('auth')->group(function () {
     Route::post('/verify/resend', [RegisterController::class, 'resendOtp'])->name('verify.resend');
 
     // ورود
-    Route::get('/login', [RegisterController::class, 'showLoginForm'])->name('login.form');
+    Route::get('/login', [RegisterController::class, 'showLoginForm'])->name('login');
     Route::post('/login', [RegisterController::class, 'login'])->name('login.submit');
-    Route::get('/login/otp', [RegisterController::class, 'showLoginOtpForm'])->name('login.otp.form');
+    Route::get('/login/otp', [RegisterController::class, 'showLoginOtpForm'])->name('login.otp');
     Route::post('/login/otp', [RegisterController::class, 'loginWithOtp'])->name('login.otp.submit');
 });
 
@@ -36,5 +37,14 @@ Route::middleware('auth')->group(function () {
         Route::delete('/profile/avatar', [ProfileController::class, 'destroyAvatar'])->name('dashboard.profile.avatar.destroy');
         Route::get('/profile', [ProfileController::class, 'show'])->name('dashboard.profile.show');
         Route::delete('/profile/delete', [ProfileController::class, 'destroyAccount'])->name('dashboard.profile.delete');
+        Route::resource('addresses', AddressController::class)
+            ->names('dashboard.addresses')
+            ->except(['show']);
     });
+});
+
+
+Route::prefix('api')->group(function () {
+    Route::get('/provinces', [AddressController::class, 'getProvinces']);
+    Route::get('/cities/{province}', [AddressController::class, 'getCities']);
 });

@@ -11,6 +11,6 @@
         <button type="submit">ورود</button>
     </form>
     <div>
-        <a href="{{ route('login.otp.form') }}">ورود با شماره تماس و کد تایید</a>
+        <a href="{{ route('login.otp') }}">ورود با شماره تماس و کد تایید</a>
     </div>
 @endsection

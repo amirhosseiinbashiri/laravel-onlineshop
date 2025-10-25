@@ -3,11 +3,10 @@
 @section('title', 'پروفایل من')
 
 @section('content')
-    <h2 class="text-xl font-bold mb-4">پروفایل من</h2>
-
-    <div class="bg-white shadow rounded p-4">
+    <h2>پروفایل من</h2>
+    <div>
         @if ($profile->avatar)
-            <img src="{{ asset('storage/' . $profile->avatar) }}" alt="Avatar" class="w-24 h-24 rounded-full mb-4">
+            <img src="{{ asset('storage/' . $profile->avatar) }}" alt="Avatar">
         @endif
 
         <p><strong>نام:</strong> {{ $profile->first_name ?? '---' }}</p>
@@ -25,8 +24,8 @@
         <p><strong>ایمیل:</strong> {{ $profile->email ?? '---' }}</p>
         <p><strong>درباره من:</strong> {{ $profile->bio ?? '---' }}</p>
 
-        <div class="mt-4 flex gap-2">
-            <a href="{{ route('dashboard.profile.edit') }}" class="bg-blue-600 text-white px-4 py-2 rounded">
+        <div >
+            <a href="{{ route('dashboard.profile.edit') }}">
                 ویرایش پروفایل
             </a>
 
@@ -34,7 +33,7 @@
                 onsubmit="return confirm('آیا از حذف حساب خود مطمئن هستید؟');">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded">
+                <button type="submit">
                     حذف حساب کاربری
                 </button>
             </form>

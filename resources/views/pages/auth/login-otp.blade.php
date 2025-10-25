@@ -7,7 +7,7 @@
 
     <form method="POST" action="{{ route('login.otp.submit') }}">
         @csrf
-        <input type="text" name="phone" placeholder="شماره موبایل" class="w-full border rounded px-3 py-2 mb-3" required>
+        <input type="text" name="phone" placeholder="شماره موبایل" required>
 
         <input type="text" name="otp_code" placeholder="کد تایید (اختیاری در مرحله اول)">
 
@@ -17,6 +17,6 @@
     </form>
 
     <div class="mt-4">
-        <a href="{{ route('login.form') }}">ورود با رمز عبور</a>
+        <a href="{{ route('login') }}">ورود با رمز عبور</a>
     </div>
 @endsection

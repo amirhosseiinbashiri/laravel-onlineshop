@@ -3,17 +3,7 @@
 @section('title', 'ثبت نام')
 
 @section('content')
-
-    @if ($errors->any())
-        <div class="text-red-500">{{ $errors->first() }}</div>
-    @endif
-
-    <hr>
-
-    <h2 class="text-xl font-bold mb-4">ثبت نام</h2>
-
-    <hr>
-
+    <h2>ثبت نام</h2>
     <form method="POST" action="{{ route('register.submit') }}">
         @csrf
         <div class="">
