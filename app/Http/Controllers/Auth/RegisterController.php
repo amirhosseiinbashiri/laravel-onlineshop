@@ -62,6 +62,7 @@ class RegisterController extends Controller
             ->with('status', 'کد تأیید به شماره تماس شما ارسال شد (در لاگ نمایش داده شده)');
     }
 
+
     /**
      * نمایش فرم تأیید کد ارسال شده (OTP)
      */
@@ -69,6 +70,7 @@ class RegisterController extends Controller
     {
         return view('pages.auth.verify');
     }
+
 
     /**
      * مرحله دوم ثبت‌نام (بررسی صحت و انقضای کد OTP)
@@ -139,6 +141,7 @@ class RegisterController extends Controller
             ->with('success', 'ثبت‌نام شما با موفقیت انجام شد!');
     }
 
+
     /**
      * ارسال مجدد کد تأیید (Resend OTP)
      */
@@ -179,6 +182,131 @@ class RegisterController extends Controller
         Log::info("New OTP for {$user->phone} is: {$newOtp}");
 
         return back()->with('status', 'کد تأیید جدید ارسال شد (در لاگ نمایش داده شده)');
+    }
+
+
+    /**
+     * نمایش فرم ورود کاربر (با رمز عبور)
+     */
+    public function showLoginForm()
+    {
+        return view('pages.auth.login');
+    }
+
+
+    /**
+     * لاگین با نام کاربری و رمز عبور
+     */
+    public function login(Request $request)
+    {
+        $credentials = $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
+        // تلاش برای لاگین
+        if (auth()->attempt($credentials, $request->boolean('remember'))) {
+            $user = auth()->user();
+            return redirect()->route('customer.dashboard')->with('success', "خوش آمدی {$user->username}");
+        }
+
+        return back()->withErrors('نام کاربری یا رمز عبور اشتباه است.');
+    }
+
+
+    /**
+     * نمایش فرم ورود با شماره تماس (OTP)
+     */
+    public function showLoginOtpForm()
+    {
+        return view('pages.auth.login-otp');
+    }
+
+
+    /**
+     * ورود با شماره تماس و دریافت OTP
+     */
+    public function loginWithOtp(Request $request)
+    {
+
+        $data = $request->validate([
+            'phone' => 'required|string',
+            'otp_code' => 'nullable|numeric',
+        ]);
+
+        // نرمال‌سازی شماره
+        $phone = $this->normalizeIranianPhone($request->phone);
+        $user = User::where('phone', $phone)->first();
+
+
+
+
+        // مرحله ۱: ارسال کد (کاربر فقط شماره را وارد کرده)
+        if (!isset($data['otp_code'])) {
+            if (!$user) {
+                return back()->withErrors('کاربری با این شماره یافت نشد.');
+            }
+
+            $otp = rand(10000, 99999);
+
+            $user->update([
+                'otp_code' => $otp,
+                'otp_expires_at' => now()->addMinutes(3),
+            ]);
+
+            Session::put('login_user_id', $user->id);
+            Log::info("OTP for login {$user->phone} is: {$otp}");
+
+            return redirect()
+                ->route('login.otp.form')
+                ->with('status', 'کد ورود برای شما ارسال شد (در لاگ نمایش داده شده)');
+        }
+
+        // مرحله ۲: بررسی کد وارد شده
+        $userId = Session::get('login_user_id');
+        $user = User::find($userId);
+
+        if (!$user) {
+            Session::forget('login_user_id');
+            return redirect()->route('login.otp.form')->withErrors('کاربر یافت نشد. دوباره تلاش کنید.');
+        }
+
+        if ($user->otp_expires_at < now()) {
+            $newOtp = rand(10000, 99999);
+            $user->update([
+                'otp_code' => $newOtp,
+                'otp_expires_at' => now()->addMinutes(3),
+            ]);
+            Log::info("New OTP for login {$user->phone} is: {$newOtp}");
+            return back()->withErrors('کد منقضی شده است، کد جدید ارسال شد.');
+        }
+
+        if ($user->otp_code != $request->otp_code) {
+            return back()->withErrors('کد وارد شده اشتباه است.');
+        }
+
+        // ورود موفق
+        $user->update([
+            'otp_code' => null,
+            'otp_expires_at' => null,
+        ]);
+
+        Session::forget('login_user_id');
+        auth()->login($user);
+
+        return redirect()->route('customer.dashboard')->with('success', "خوش آمدی {$user->username}");
+    }
+
+    /**
+     * خروج از حساب کاربری
+     */
+    public function logout(Request $request)
+    {
+        auth()->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login.form')->with('status', 'با موفقیت از حساب خود خارج شدید.');
     }
 
     /**
