@@ -37,7 +37,8 @@
                 </div>
             </div>
             <div>
-                <a href="{{ route('dashboard.profile.edit') }}">ویرایش پروفایل</a>
+                <a href="{{ route('dashboard.profile.edit') }}">ویرایش پروفایل</a><span> --|-- </span>
+                <a href="{{ route('dashboard.profile.show') }}">نمایش پروفایل</a>
             </div>
         @endif
     </div>

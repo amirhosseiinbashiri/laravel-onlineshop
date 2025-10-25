@@ -98,4 +98,38 @@ class ProfileController extends Controller
 
         return back()->with('success', 'آواتار با موفقیت حذف شد.');
     }
+
+    public function show()
+    {
+        $profile = auth()->user()->profile;
+
+        if (!$profile) {
+            return redirect()->route('dashboard.profile.create')
+                ->with('status', 'ابتدا پروفایل خود را ایجاد کنید.');
+        }
+
+        return view('pages.profile.show', compact('profile'));
+    }
+
+    public function destroyAccount(Request $request)
+    {
+        $user = auth()->user();
+
+        // حذف آواتار در صورت وجود
+        if ($user->profile && $user->profile->avatar) {
+            Storage::disk('public')->delete($user->profile->avatar);
+        }
+
+        // حذف پروفایل
+        $user->profile()->delete();
+
+        // حذف خود کاربر
+        $user->delete();
+
+        // خروج از سیستم
+        auth()->logout();
+
+        return redirect('/')
+            ->with('status', 'حساب کاربری شما با موفقیت حذف شد.');
+    }
 }
