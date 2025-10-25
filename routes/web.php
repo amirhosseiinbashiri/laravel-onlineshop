@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Customer\DashboardController;
 
 Route::get('/', function () {
     return "Hello World";
@@ -13,6 +14,14 @@ Route::middleware('guest')->prefix('auth')->group(function () {
     Route::get('/verify', [RegisterController::class, 'showVerifyForm'])->name('verify.form');
     Route::post('/verify', [RegisterController::class, 'verify'])->name('verify.submit');
     Route::post('/verify/resend', [RegisterController::class, 'resendOtp'])->name('verify.resend');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('customer.dashboard');
+    Route::post('/logout', function () {
+        auth()->logout();
+        return redirect()->route('register.form')->with('status', 'با موفقیت از حساب خود خارج شدید.');
+    })->name('logout');
 });
 
 Route::get('/customer/dashboard', function () {
