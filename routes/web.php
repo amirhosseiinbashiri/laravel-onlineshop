@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Customer\AddressController;
 use App\Http\Controllers\Customer\DashboardController;
+use App\Http\Controllers\PannelController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
@@ -43,6 +44,9 @@ Route::middleware('auth')->group(function () {
     });
 });
 
+Route::middleware(['auth', 'is_admin'])->prefix('pannel')->group(function () {
+    Route::get('/', [PannelController::class, 'index'])->name('pannel');
+});
 
 Route::prefix('api')->group(function () {
     Route::get('/provinces', [AddressController::class, 'getProvinces']);
