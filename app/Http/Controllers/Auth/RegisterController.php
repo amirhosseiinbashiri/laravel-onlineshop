@@ -137,7 +137,7 @@ class RegisterController extends Controller
 
         // ✅ انتقال به داشبورد مشتری
         return redirect()
-            ->route('customer.dashboard')
+            ->route('dashboard')
             ->with('success', 'ثبت‌نام شما با موفقیت انجام شد!');
     }
 
@@ -207,7 +207,7 @@ class RegisterController extends Controller
         // تلاش برای لاگین
         if (auth()->attempt($credentials, $request->boolean('remember'))) {
             $user = auth()->user();
-            return redirect()->route('customer.dashboard')->with('success', "خوش آمدی {$user->username}");
+            return redirect()->route('dashboard')->with('success', "خوش آمدی {$user->username}");
         }
 
         return back()->withErrors('نام کاربری یا رمز عبور اشتباه است.');
@@ -294,7 +294,7 @@ class RegisterController extends Controller
         Session::forget('login_user_id');
         auth()->login($user);
 
-        return redirect()->route('customer.dashboard')->with('success', "خوش آمدی {$user->username}");
+        return redirect()->route('dashboard')->with('success', "خوش آمدی {$user->username}");
     }
 
     /**

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Customer\DashboardController;
+use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return "Hello World";
@@ -24,6 +25,15 @@ Route::middleware('guest')->prefix('auth')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('customer.dashboard');
     Route::post('/logout', [RegisterController::class, 'logout'])->name('logout');
+
+    Route::prefix('dashboard')->group(function () {
+        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/profile/create', [ProfileController::class, 'create'])->name('dashboard.profile.create');
+        Route::post('/profile', [ProfileController::class, 'store'])->name('dashboard.profile.store');
+        Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('dashboard.profile.edit');
+        Route::post('/profile/update', [ProfileController::class, 'update'])->name('dashboard.profile.update');
+        Route::delete('/profile/avatar', [ProfileController::class, 'destroyAvatar'])->name('dashboard.profile.avatar.destroy');
+
+    });
 });

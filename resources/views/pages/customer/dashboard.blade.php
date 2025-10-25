@@ -14,4 +14,31 @@
             </button>
         </form>
     </div>
+
+    <div>
+
+        @if(!auth()->user()->profile)
+            <p>شما هنوز پروفایل خود را ایجاد نکرده‌اید.</p>
+            <a href="{{ route('dashboard.profile.create') }}" class="bg-blue-600 text-white px-4 py-2 rounded">ایجاد پروفایل</a>
+        @else
+            @php $p = auth()->user()->profile; @endphp
+            <div>
+                @if($p->avatar)
+                    <img src="{{ asset('storage/'.$p->avatar) }}">
+                @else
+                    <div>
+                        {{ mb_substr($p->first_name ?? '؟', 0, 1) }}
+                    </div>
+                @endif
+                <div>
+                    <h2>{{ $p->first_name }} {{ $p->last_name }}</h2>
+                    <p>{{ $p->email }}</p>
+                    <p>{{ $p->bio }}</p>
+                </div>
+            </div>
+            <div>
+                <a href="{{ route('dashboard.profile.edit') }}">ویرایش پروفایل</a>
+            </div>
+        @endif
+    </div>
 @endsection
