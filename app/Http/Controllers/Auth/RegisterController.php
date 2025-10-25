@@ -74,7 +74,7 @@ class RegisterController extends Controller
             $newOtp = rand(10000, 99999);
             $user->update([
                 'otp_code' => $newOtp,
-                'otp_expires_at' => now()->addMinutes(5),
+                'otp_expires_at' => now()->addMinutes(3),
             ]);
 
             Log::info("New OTP for {$user->phone} is: {$newOtp}");
