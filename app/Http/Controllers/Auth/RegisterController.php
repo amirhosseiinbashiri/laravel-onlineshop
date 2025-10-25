@@ -151,6 +151,13 @@ class RegisterController extends Controller
 
         if (auth()->attempt($credentials, $request->boolean('remember'))) {
             $user = auth()->user();
+
+            $user->touch();
+
+            if ($user->is_admin) {
+                return redirect()->route('pannel')->with('success', "مدیر گرامی {$user->username} خوش آمدید");
+            }
+
             return redirect()->route('dashboard')->with('success', "خوش آمدی {$user->username}");
         }
 
@@ -220,8 +227,14 @@ class RegisterController extends Controller
             'otp_expires_at' => null,
         ]);
 
+        $user->touch();
+
         Session::forget('login_user_id');
         auth()->login($user);
+
+        if ($user->is_admin) {
+            return redirect()->route('pannel')->with('success', "مدیر گرامی {$user->username} خوش آمدید");
+        }
 
         return redirect()->route('dashboard')->with('success', "خوش آمدی {$user->username}");
     }
