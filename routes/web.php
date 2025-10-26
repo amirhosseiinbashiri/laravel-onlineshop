@@ -1,15 +1,15 @@
 <?php
 
+use App\Http\Controllers\Admin\CategoryController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Customer\AddressController;
 use App\Http\Controllers\Customer\DashboardController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PannelController;
 use App\Http\Controllers\ProfileController;
 
-Route::get('/', function () {
-    return "Hello World";
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::middleware('guest')->prefix('auth')->group(function () {
     // ثبت‌نام
@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'is_admin'])->prefix('pannel')->group(function () {
     Route::get('/', [PannelController::class, 'index'])->name('pannel');
+    Route::resource('categories', CategoryController::class);
 });
 
 Route::prefix('api')->group(function () {

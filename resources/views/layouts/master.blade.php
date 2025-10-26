@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    @include('sections.header')
+    @include('sections.web.header')
     {{-- show messages --}}
 
     @if ($errors->any())
@@ -29,7 +29,7 @@
 
     {{-- end show messages --}}
     @yield('content')
-    @include('sections.footer')
+    @include('sections.web.footer')
     @yield('script')
 </body>
 
