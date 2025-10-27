@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\Admin\AttributeController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\ProductVariantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Customer\AddressController;
@@ -48,9 +51,13 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'is_admin'])->prefix('pannel')->group(function () {
     Route::get('/', [PannelController::class, 'index'])->name('pannel');
     Route::resource('categories', CategoryController::class);
+    Route::resource('products', ProductController::class);
+    Route::resource('products.variants', ProductVariantController::class);
+    Route::resource('attributes', AttributeController::class);
 });
 
 Route::prefix('api')->group(function () {
     Route::get('/provinces', [AddressController::class, 'getProvinces']);
     Route::get('/cities/{province}', [AddressController::class, 'getCities']);
+
 });
