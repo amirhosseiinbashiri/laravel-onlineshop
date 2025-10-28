@@ -31,6 +31,14 @@
                 </select>
             </div>
 
+            <div class="mb-4">
+                <label class="block mb-1">نوع محصول</label>
+                <select name="type" class="w-full border rounded p-2">
+                        <option value="simple">ساده</option>
+                        <option value="varianted">متغیر</option>
+                </select>
+            </div>
+
             <div class="grid grid-cols-2 gap-4 mb-4">
 
                 <div>

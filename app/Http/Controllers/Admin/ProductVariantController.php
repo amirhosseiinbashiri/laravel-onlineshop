@@ -48,6 +48,7 @@ class ProductVariantController extends Controller
         $variant = $product->variants()->create($validated);
 
         // ثبت ویژگی‌های انتخاب‌شده (attribute_value_id ها)
+
         $variant->values()->sync($validated['attribute_values']);
 
         return redirect()

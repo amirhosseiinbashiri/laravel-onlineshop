@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AttributeController;
+use App\Http\Controllers\Admin\AttributeValueController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductVariantController;
@@ -54,6 +55,7 @@ Route::middleware(['auth', 'is_admin'])->prefix('pannel')->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('products.variants', ProductVariantController::class);
     Route::resource('attributes', AttributeController::class);
+    Route::resource('attributes.values', AttributeValueController::class);
 });
 
 Route::prefix('api')->group(function () {

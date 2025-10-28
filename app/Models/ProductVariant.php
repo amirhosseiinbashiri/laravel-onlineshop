@@ -19,6 +19,11 @@ class ProductVariant extends Model
         'image',
     ];
 
+    protected $casts = [
+        'discount_expires_at' => 'datetime',
+    ];
+
+
     public function product()
     {
         return $this->belongsTo(Product::class);
@@ -26,6 +31,6 @@ class ProductVariant extends Model
 
     public function values()
     {
-        return $this->hasMany(ProductVariantValue::class);
+        return $this->belongsToMany(AttributeValue::class, 'product_variant_values');
     }
 }

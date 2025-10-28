@@ -19,9 +19,10 @@ return new class extends Migration
             $table->string('meta_title')->nullable();
             $table->text('meta_description')->nullable();
             $table->enum('status', ['draft', 'published'])->default('draft');
+            $table->enum('type', ['simple', 'varianted'])->default('simple');
             $table->string('sku')->nullable()->unique();
-            $table->integer('stock')->default(0);
-            $table->integer('price');
+            $table->integer('stock')->nullable();
+            $table->integer('price')->nullable();
             $table->integer('discount_price')->nullable();
             $table->timestamp('discount_expires_at')->nullable();
             $table->string('image')->nullable();

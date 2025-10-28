@@ -35,11 +35,13 @@
                     <td class="border p-2">{{ jdate($attribute->created_at)->format('Y/m/d') }}</td>
                     <td class="border p-2 text-center">
                         <a href="{{ route('attributes.edit', $attribute->id) }}"
-                           class="text-blue-600 hover:underline">ویرایش</a>
-
-                        <form action="{{ route('attributes.destroy', $attribute->id) }}" method="POST"
-                              class="inline-block"
-                              onsubmit="return confirm('آیا از حذف این ویژگی مطمئن هستید؟')">
+                            class="text-blue-600 hover:underline">ویرایش</a>
+                        <a href="{{ route('attributes.values.index', $attribute->id) }}"
+                            class="bg-green-600 text-white px-2 py-1 rounded">
+                            افزودن مقدار
+                        </a>
+                        <form action="{{ route('attributes.destroy', $attribute->id) }}" method="POST" class="inline-block"
+                            onsubmit="return confirm('آیا از حذف این ویژگی مطمئن هستید؟')">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="text-red-600 hover:underline ml-2">حذف</button>

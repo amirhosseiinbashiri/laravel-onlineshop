@@ -30,7 +30,7 @@
                     <td class="p-2">{{ $product->id }}</td>
                     <td class="p-2">
                         @if($product->image)
-                            <img src="{{ asset('storage/' . $product->image) }}" alt="" class="w-12 h-12 rounded object-cover">
+                            <img src="{{ asset('storage/' . $product->image) }}" alt="" class="w-12 h-12 rounded object-cover" style="width: 25px">
                         @else
                             <span class="text-gray-400 text-xs">—</span>
                         @endif
@@ -51,6 +51,7 @@
                     </td>
                     <td class="p-2">
                         <a href="{{ route('products.edit', $product) }}" class="text-blue-600 hover:underline">ویرایش</a>
+                        <a href="{{ route('products.variants.create', $product->id) }}" class="text-blue-600 hover:underline">افزودن ویژگی</a>
                         <form action="{{ route('products.destroy', $product) }}" method="POST" class="inline">
                             @csrf
                             @method('DELETE')

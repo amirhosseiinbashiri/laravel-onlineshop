@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @yield('meta')
     @yield('style')
 
@@ -12,7 +13,11 @@
 </head>
 
 <body>
-    @include('sections.web.header')
+
+    <div class="max-w-[1260px] mx-auto px-2">
+        @include('sections.web.header')
+
+    </div>
     {{-- show messages --}}
 
     @if ($errors->any())

@@ -41,9 +41,11 @@ class ProductController extends Controller
             'description'   => 'nullable|string',
             'status'        => 'required|in:draft,published',
             'base_price'    => 'nullable|numeric|min:0',
+            'price'         => 'nullable|numeric',
             'sku'         => 'nullable|string',
             'stock'         => 'nullable|integer|min:0',
             'categories'    => 'nullable|array',
+            'type'    => 'required',
             'image'         => 'nullable|image|max:2048',
             'seo_title'     => 'nullable|string|max:255',
             'seo_description' => 'nullable|string|max:255',
@@ -75,6 +77,7 @@ class ProductController extends Controller
      */
     public function edit(string $id)
     {
+        $product = Product::findOrFail($id);
         $categories = Category::all();
         return view('pages.admin.products.edit', compact('product', 'categories'));
     }
@@ -90,9 +93,10 @@ class ProductController extends Controller
             'status'        => 'required|in:draft,published',
             'base_price'    => 'nullable|numeric|min:0',
             'sku'         => 'nullable|string',
-            'price'         => 'required|numeric',
+            'price'         => 'nullable|numeric',
             'stock'         => 'nullable|integer|min:0',
             'categories'    => 'nullable|array',
+            'type'    => 'required',
             'image'         => 'nullable|image|max:2048',
             'seo_title'     => 'nullable|string|max:255',
             'seo_description' => 'nullable|string|max:255',
