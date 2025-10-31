@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>لیست محصولات | فروشگاه بالشت طبی</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: 'Vazirmatn', sans-serif;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-50 text-gray-800">
+    <!-- هدر -->
+    <header class="bg-white shadow sticky top-0 z-50">
+      <div class="container mx-auto px-4">
+        <nav class="flex items-center justify-between py-4">
+          <a href="index.html">
+            <img src="img/logo.png" alt="لوگو" class="w-32" />
+          </a>
+          <button class="lg:hidden text-2xl text-gray-700">
+            <i class="fas fa-bars"></i>
+          </button>
+          <ul
+            class="hidden lg:flex items-center space-x-6 space-x-reverse font-medium"
+          >
+            <li><a href="index.html" class="hover:text-blue-600">صفحه اصلی</a></li>
+            <li><a href="about.html" class="hover:text-blue-600">درباره ما</a></li>
+            <li class="relative group">
+              <a href="#" class="flex items-center hover:text-blue-600"
+                >محصولات <i class="ml-1 fas fa-chevron-down text-sm"></i
+              ></a>
+              <div
+                class="absolute right-0 hidden group-hover:block bg-white rounded-md shadow-lg mt-2 w-40"
+              >
+                <a
+                  href="product_list.html"
+                  class="block px-4 py-2 hover:bg-gray-100"
+                  >لیست محصولات</a
+                >
+                <a
+                  href="single-product.html"
+                  class="block px-4 py-2 hover:bg-gray-100"
+                  >جزئیات محصولات</a
+                >
+              </div>
+            </li>
+            <li><a href="contact.html" class="hover:text-blue-600">تماس با ما</a></li>
+          </ul>
+          <div class="flex items-center gap-4">
+            <a href="#" class="text-gray-600 hover:text-blue-600"
+              ><i class="ti-search"></i
+            ></a>
+            <a href="cart.html" class="text-gray-600 hover:text-blue-600"
+              ><i class="flaticon-shopping-cart-black-shape"></i
+            ></a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- بنر -->
+    <section
+      class="bg-gradient-to-l from-blue-50 to-blue-100 py-12 text-center shadow-inner"
+    >
+      <h2 class="text-3xl font-bold text-gray-800">لیست محصولات</h2>
+      <p class="text-gray-600 mt-2">محصولات با کیفیت و ارگانیک برای سلامتی شما</p>
+    </section>
+
+    <!-- لیست محصولات -->
+    <section class="py-16">
+      <div class="container mx-auto px-4 grid lg:grid-cols-4 gap-8">
+        <!-- سایدبار -->
+        <aside class="lg:col-span-1 space-y-6">
+          <div class="bg-white p-5 rounded-2xl shadow">
+            <input
+              type="text"
+              placeholder="جست‌وجو..."
+              class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:ring-2 focus:ring-blue-400 outline-none"
+            />
+          </div>
+          <div class="bg-white p-5 rounded-2xl shadow">
+            <h4 class="font-bold mb-3 border-b pb-2">دسته‌ها</h4>
+            <ul class="space-y-2">
+              <li><a href="#" class="hover:text-blue-600">دسته ۱</a></li>
+              <li><a href="#" class="hover:text-blue-600">دسته ۲</a></li>
+              <li><a href="#" class="hover:text-blue-600">دسته ۳</a></li>
+              <li><a href="#" class="hover:text-blue-600">دسته ۴</a></li>
+            </ul>
+          </div>
+          <div class="bg-white p-5 rounded-2xl shadow">
+            <h4 class="font-bold mb-3 border-b pb-2">مدل‌ها</h4>
+            <ul class="space-y-2">
+              <li><a href="#" class="hover:text-blue-600">مدل ۱</a></li>
+              <li><a href="#" class="hover:text-blue-600">مدل ۲</a></li>
+              <li><a href="#" class="hover:text-blue-600">مدل ۳</a></li>
+              <li><a href="#" class="hover:text-blue-600">مدل ۴</a></li>
+            </ul>
+          </div>
+        </aside>
+
+        <!-- محصولات -->
+        <main class="lg:col-span-3">
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- تکرار محصول -->
+            <div
+              class="bg-white rounded-2xl shadow hover:shadow-lg transition p-4 text-center"
+            >
+              <img
+                src="img/product/product_list_1.png"
+                alt="محصول"
+                class="mx-auto mb-4"
+              />
+              <h3 class="font-semibold mb-2">
+                <a href="single-product.html" class="hover:text-blue-600"
+                  >بالشتک‌های طبی از جنس فوم</a
+                >
+              </h3>
+              <p class="text-gray-600 text-sm">شروع قیمت از ۱۵٬۰۰۰ تومان</p>
+            </div>
+
+            <div
+              class="bg-white rounded-2xl shadow hover:shadow-lg transition p-4 text-center"
+            >
+              <img
+                src="img/product/product_list_2.png"
+                alt="محصول"
+                class="mx-auto mb-4"
+              />
+              <h3 class="font-semibold mb-2">
+                <a href="single-product.html" class="hover:text-blue-600"
+                  >بالشتک از جنس فوم</a
+                >
+              </h3>
+              <p class="text-gray-600 text-sm">شروع قیمت از ۱۵٬۰۰۰ تومان</p>
+            </div>
+
+            <div
+              class="bg-white rounded-2xl shadow hover:shadow-lg transition p-4 text-center"
+            >
+              <img
+                src="img/product/product_list_3.png"
+                alt="محصول"
+                class="mx-auto mb-4"
+              />
+              <h3 class="font-semibold mb-2">
+                <a href="single-product.html" class="hover:text-blue-600"
+                  >بالشتک طبی سفر</a
+                >
+              </h3>
+              <p class="text-gray-600 text-sm">شروع قیمت از ۱۵٬۰۰۰ تومان</p>
+            </div>
+
+            <!-- بقیه محصولات (به همین الگو اضافه می‌شوند) -->
+          </div>
+
+          <div class="text-center mt-10">
+            <a
+              href="#"
+              class="inline-block bg-blue-600 text-white px-8 py-3 rounded-xl hover:bg-blue-700 transition"
+              >جزئیات بیشتر</a
+            >
+          </div>
+        </main>
+      </div>
+    </section>
+
+    <!-- بخش نظرات مشتریان -->
+    <section class="bg-blue-50 py-16">
+      <div class="container mx-auto px-4 text-center">
+        <h3 class="text-2xl font-bold mb-10">نظرات مشتریان</h3>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="bg-white p-6 rounded-2xl shadow">
+            <img
+              src="img/client.png"
+              alt="مشتری"
+              class="w-16 h-16 rounded-full mx-auto mb-4"
+            />
+            <p class="text-gray-600">
+              "استفاده از بالش‌های طبی را در سفرهای طولانی پیشنهاد می‌کنم."
+            </p>
+            <h5 class="mt-3 font-bold">- رضا محمدی</h5>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow">
+            <img
+              src="img/client_1.png"
+              alt="مشتری"
+              class="w-16 h-16 rounded-full mx-auto mb-4"
+            />
+            <p class="text-gray-600">
+              "برای جلوگیری از گردن درد گزینه‌های مناسبی هستند."
+            </p>
+            <h5 class="mt-3 font-bold">- امیر امیری</h5>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow">
+            <img
+              src="img/client_2.png"
+              alt="مشتری"
+              class="w-16 h-16 rounded-full mx-auto mb-4"
+            />
+            <p class="text-gray-600">
+              "برای نشستن طولانی روی مبل بسیار راحت هستند."
+            </p>
+            <h5 class="mt-3 font-bold">- محمد موسوی</h5>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ویژگی‌ها -->
+    <section class="py-16">
+      <div class="container mx-auto px-4 text-center">
+        <h3 class="text-2xl font-bold mb-8">
+          با استفاده از مواد ارگانیک، محصولات استاندارد تولید می‌کنیم.
+        </h3>
+        <p class="text-gray-600 max-w-2xl mx-auto mb-12">
+          شرکت ما با بهره‌گیری از مواد طبیعی و استانداردهای جهانی، محصولاتی با
+          کیفیت بالا و طراحی انسانی ارائه می‌دهد.
+        </p>
+
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div class="bg-white p-6 rounded-2xl shadow">
+            <img
+              src="img/icon/feature_icon_1.svg"
+              alt=""
+              class="mx-auto mb-4 w-12"
+            />
+            <h4 class="font-semibold">پشتیبانی کارت اعتباری</h4>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow">
+            <img
+              src="img/icon/feature_icon_2.svg"
+              alt=""
+              class="mx-auto mb-4 w-12"
+            />
+            <h4 class="font-semibold">سفارش آنلاین</h4>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow">
+            <img
+              src="img/icon/feature_icon_3.svg"
+              alt=""
+              class="mx-auto mb-4 w-12"
+            />
+            <h4 class="font-semibold">تحویل رایگان</h4>
+          </div>
+          <div class="bg-white p-6 rounded-2xl shadow">
+            <img
+              src="img/icon/feature_icon_4.svg"
+              alt=""
+              class="mx-auto mb-4 w-12"
+            />
+            <h4 class="font-semibold">محصولات همراه با جایزه</h4>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- اشتراک خبرنامه -->
+    <section class="bg-blue-600 text-white py-16 text-center">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-4">به‌روزرسانی و اخبار جدید!</h2>
+        <p class="mb-8">
+          با ثبت ایمیل خود، از تخفیف‌ها و محصولات جدید مطلع شوید.
+        </p>
+        <form
+          class="flex flex-col sm:flex-row justify-center items-center gap-3 max-w-lg mx-auto"
+        >
+          <input
+            type="email"
+            placeholder="ایمیل خود را وارد کنید"
+            class="w-full sm:flex-1 px-4 py-2 rounded-xl text-gray-800 outline-none"
+          />
+          <button
+            type="submit"
+            class="bg-white text-blue-600 px-6 py-2 rounded-xl hover:bg-gray-100 font-semibold"
+          >
+            عضویت
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- فوتر -->
+    <footer class="bg-gray-900 text-gray-300 py-10">
+      <div
+        class="container mx-auto px-4 flex flex-col lg:flex-row justify-between items-center gap-6"
+      >
+        <div class="flex items-center gap-8">
+          <img src="img/logo.png" alt="لوگو" class="w-28" />
+          <nav class="flex gap-4 text-sm">
+            <a href="index.html" class="hover:text-white">صفحه اصلی</a>
+            <a href="product_list.html" class="hover:text-white">محصولات</a>
+            <a href="blog.html" class="hover:text-white">وبلاگ</a>
+            <a href="contact.html" class="hover:text-white">تماس با ما</a>
+          </nav>
+        </div>
+        <div class="flex gap-4 text-xl">
+          <a href="#" class="hover:text-white"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="hover:text-white"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="text-center text-sm text-gray-500 mt-6">
+        © <span id="year"></span> تمامی حقوق محفوظ است | طراحی با ❤️ توسط Tailwind
+      </div>
+      <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+      </script>
+    </footer>
+  </body>
+</html>

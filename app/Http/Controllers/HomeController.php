@@ -7,19 +7,16 @@ use App\Models\Category;
 
 class HomeController extends Controller
 {
+
     public function index()
     {
-        return view('pages.web.index');
+        return view('main.pages.home');
     }
 
     public function category(Category $category)
     {
         $category->load(['children', 'parent']);
-
-        // در آینده محصولات هم:
-        // $products = $category->products()->paginate(10);
-
-        return view('pages.web.category', compact('category'));
+        return view('main.pages.category', compact('category'));
     }
 
 

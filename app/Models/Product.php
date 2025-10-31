@@ -4,31 +4,25 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = [
         'title',
         'slug',
+        'short_description',
         'description',
-        'meta_title',
-        'meta_description',
-        'status',
-        'sku',
-        'stock',
         'price',
         'discount_price',
-        'discount_expires_at',
-        'image',
+        'discount_ends_at',
+        'category_id',
+        'main_image',
+        'is_active',
     ];
-
-    public function variants()
-    {
-        return $this->hasMany(ProductVariant::class);
-    }
 
     protected static function booted()
     {
@@ -39,14 +33,39 @@ class Product extends Model
         });
     }
 
+    protected $casts = [
+        'discount_ends_at' => 'datetime',
+    ];
+
+    // روابط
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+
     public function images()
     {
         return $this->hasMany(ProductImage::class);
     }
 
-    public function categories()
+    public function tags()
     {
-        return $this->belongsToMany(Category::class, 'category_product')
-            ->withTimestamps();
+        return $this->belongsToMany(Tag::class);
+    }
+
+    // متد کمکی برای بررسی تخفیف فعال
+    public function getHasActiveDiscountAttribute()
+    {
+        return $this->discount_price && $this->discount_ends_at > now();
+    }
+
+    public function getFinalPriceAttribute()
+    {
+        return $this->has_active_discount ? $this->discount_price : $this->price;
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class)->whereNull('parent_id')->where('is_approved', true);
     }
 }

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>سبد خرید | فروشگاه Pillomart</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.4/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    @import url('https://fonts.bunny.net/css?family=vazirmatn:400,500,700');
+    body { font-family: 'Vazirmatn', sans-serif; background-color: #f9fafb; }
+  </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800">
+
+  <!-- Header -->
+  <header class="bg-white shadow-md sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+      <a href="index.html" class="flex items-center gap-2">
+        <img src="img/logo.png" alt="logo" class="h-10">
+        <span class="text-lg font-bold text-green-700">Pillomart</span>
+      </a>
+      <nav class="hidden md:flex gap-6 text-sm font-medium">
+        <a href="index.html" class="hover:text-green-600">صفحه اصلی</a>
+        <a href="about.html" class="hover:text-green-600">درباره ما</a>
+        <a href="product_list.html" class="hover:text-green-600">محصولات</a>
+        <a href="blog.html" class="hover:text-green-600">وبلاگ</a>
+        <a href="contact.html" class="hover:text-green-600">تماس با ما</a>
+      </nav>
+      <div class="flex items-center gap-4">
+        <button class="text-gray-500 hover:text-green-700">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 103 10.5a7.5 7.5 0 0013.65 6.15z" /></svg>
+        </button>
+        <a href="cart.html" class="relative">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2 9h14l-2-9M10 21a2 2 0 11-4 0m10 0a2 2 0 11-4 0" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Breadcrumb -->
+  <section class="bg-green-100 py-8">
+    <div class="max-w-6xl mx-auto text-center">
+      <h2 class="text-2xl font-bold text-green-800">سبد خرید شما</h2>
+    </div>
+  </section>
+
+  <!-- Cart Table -->
+  <section class="py-12">
+    <div class="max-w-6xl mx-auto bg-white shadow rounded-lg p-6 overflow-x-auto">
+      <table class="min-w-full text-center border-collapse">
+        <thead>
+          <tr class="bg-green-700 text-white">
+            <th class="py-3 px-2">محصول</th>
+            <th class="py-3 px-2">قیمت</th>
+            <th class="py-3 px-2">تعداد</th>
+            <th class="py-3 px-2">جمع کل</th>
+          </tr>
+        </thead>
+        <tbody class="divide-y">
+          <tr>
+            <td class="py-4 flex items-center justify-center gap-4">
+              <img src="img/arrivel/arrivel_1.png" class="w-16 h-16 object-cover rounded-md" alt="">
+              <span class="text-sm font-medium">بالشت طبی فوم هوشمند</span>
+            </td>
+            <td class="py-4 text-gray-700">۹۰,۰۰۰ تومان</td>
+            <td class="py-4">
+              <div class="inline-flex items-center border rounded-lg">
+                <button class="px-3 py-1 text-lg">−</button>
+                <input type="number" value="1" min="1" max="10" class="w-12 text-center border-x py-1 focus:outline-none">
+                <button class="px-3 py-1 text-lg">+</button>
+              </div>
+            </td>
+            <td class="py-4 font-bold text-green-700">۱۸۰,۰۰۰ تومان</td>
+          </tr>
+
+          <tr>
+            <td class="py-4 flex items-center justify-center gap-4">
+              <img src="img/arrivel/arrivel_2.png" class="w-16 h-16 object-cover rounded-md" alt="">
+              <span class="text-sm font-medium">بالشت مسافرتی ارگونومیک</span>
+            </td>
+            <td class="py-4 text-gray-700">۶۰,۰۰۰ تومان</td>
+            <td class="py-4">
+              <div class="inline-flex items-center border rounded-lg">
+                <button class="px-3 py-1 text-lg">−</button>
+                <input type="number" value="1" min="1" max="10" class="w-12 text-center border-x py-1 focus:outline-none">
+                <button class="px-3 py-1 text-lg">+</button>
+              </div>
+            </td>
+            <td class="py-4 font-bold text-green-700">۱۶۰,۰۰۰ تومان</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="mt-8 text-left">
+        <h3 class="text-lg font-semibold mb-2">روش ارسال</h3>
+        <div class="space-y-2">
+          <label class="flex items-center gap-2"><input type="radio" name="shipping" checked> ارسال رایگان (۰ تومان)</label>
+          <label class="flex items-center gap-2"><input type="radio" name="shipping"> تحویل محلی (۲۰,۰۰۰ تومان)</label>
+          <label class="flex items-center gap-2"><input type="radio" name="shipping"> پست سفارشی (۳۰,۰۰۰ تومان)</label>
+        </div>
+      </div>
+
+      <div class="mt-8 border-t pt-6 flex flex-col md:flex-row justify-between items-center">
+        <div class="text-gray-700 text-sm">
+          <p>جمع کل: <span class="font-bold text-green-700 text-lg">۵۰۰,۰۰۰ تومان</span></p>
+        </div>
+        <div class="mt-4 md:mt-0 flex gap-4">
+          <a href="product_list.html" class="bg-gray-200 hover:bg-gray-300 text-gray-700 px-5 py-2 rounded-lg">ادامه خرید</a>
+          <a href="checkout.html" class="bg-green-700 hover:bg-green-800 text-white px-5 py-2 rounded-lg">تسویه حساب</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-green-900 text-white py-10 mt-16">
+    <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-6 items-center px-4">
+      <div>
+        <img src="img/logo.png" class="h-12 mb-3" alt="">
+        <p class="text-sm text-gray-200">فروشگاه آنلاین محصولات طبی و خانگی — Pillomart</p>
+      </div>
+      <div class="flex justify-center md:justify-end gap-4 text-lg">
+        <a href="#" class="hover:text-green-300"></a>
+        <a href="#" class="hover:text-green-300"></a>
+        <a href="#" class="hover:text-green-300"></a>
+      </div>
+    </div>
+    <div class="mt-8 text-center text-xs text-grَay-300">
+      © <script>document.write(new Date().getFullYear())</script> Pillomart | طراحی شده با ❤️
+    </div>
+  </footer>
+
+</body>
+</html>

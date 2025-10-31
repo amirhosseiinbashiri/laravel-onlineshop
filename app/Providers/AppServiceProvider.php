@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        View::composer('layouts.master', function ($view){
+        View::composer('main.layouts.master', function ($view){
             $categories = Category::with('children.children')
             ->whereNull('parent_id')
             ->get();

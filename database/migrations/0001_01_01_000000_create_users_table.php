@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('phone')->unique();
             $table->boolean('is_admin')->default(false);
             $table->string('otp_code')->nullable();
+            $table->boolean('phone_verify')->default(false);
             $table->timestamp('otp_expires_at')->nullable();
             $table->timestamps();
         });

@@ -1,65 +1,104 @@
 <?php
 
-use App\Http\Controllers\Admin\AttributeController;
-use App\Http\Controllers\Admin\AttributeValueController;
 use App\Http\Controllers\Admin\CategoryController;
+use App\Http\Controllers\Admin\PannelController;
 use App\Http\Controllers\Admin\ProductController;
-use App\Http\Controllers\Admin\ProductVariantController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Customer\AddressController;
-use App\Http\Controllers\Customer\DashboardController;
+use App\Http\Controllers\CommentController;
+use App\Http\Controllers\Dashboard\AddressController;
+use App\Http\Controllers\Dashboard\DashboardController;
+use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\PannelController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TestController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', [HomeController::class, 'index'])->name('page.home');
-Route::get('/category/{category:slug}', [HomeController::class, 'category'])->name('page.category');
 
-Route::middleware('guest')->prefix('auth')->group(function () {
-    // ثبت‌نام
-    Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register.form');
-    Route::post('/register', [RegisterController::class, 'register'])->name('register.submit');
-    Route::get('/verify', [RegisterController::class, 'showVerifyForm'])->name('verify.form');
-    Route::post('/verify', [RegisterController::class, 'verify'])->name('verify.submit');
-    Route::post('/verify/resend', [RegisterController::class, 'resendOtp'])->name('verify.resend');
+// test routes
+Route::prefix('test')->group(function () {
+    Route::get('/', [TestController::class, 'index'])->name('test.index');
+});
 
-    // ورود
+Route::prefix('/')->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/category/{category:slug}', [HomeController::class, 'category'])->name('category');
+});
+
+// auth
+Route::middleware('guest')->group(function () {
+    // register
+
+    Route::get('/register', [RegisterController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [RegisterController::class, 'register'])->name('register');
+
+
+    // login
+
     Route::get('/login', [RegisterController::class, 'showLoginForm'])->name('login');
-    Route::post('/login', [RegisterController::class, 'login'])->name('login.submit');
+    Route::post('/login', [RegisterController::class, 'login'])->name('login');
     Route::get('/login/otp', [RegisterController::class, 'showLoginOtpForm'])->name('login.otp');
-    Route::post('/login/otp', [RegisterController::class, 'loginWithOtp'])->name('login.otp.submit');
+    Route::post('/login/otp', [RegisterController::class, 'loginWithOtp'])->name('login.otp');
 });
 
 Route::middleware('auth')->group(function () {
-    Route::post('/logout', [RegisterController::class, 'logout'])->name('logout');
+    Route::post('/products/{product}/comments', [CommentController::class, 'store'])->name('comments.store');
+});
 
-    Route::prefix('dashboard')->group(function () {
-        Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-        Route::get('/profile/create', [ProfileController::class, 'create'])->name('dashboard.profile.create');
-        Route::post('/profile', [ProfileController::class, 'store'])->name('dashboard.profile.store');
-        Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('dashboard.profile.edit');
-        Route::post('/profile/update', [ProfileController::class, 'update'])->name('dashboard.profile.update');
-        Route::delete('/profile/avatar', [ProfileController::class, 'destroyAvatar'])->name('dashboard.profile.avatar.destroy');
-        Route::get('/profile', [ProfileController::class, 'show'])->name('dashboard.profile.show');
-        Route::delete('/profile/delete', [ProfileController::class, 'destroyAccount'])->name('dashboard.profile.delete');
+// main pages
+// Route::group(function () {});
+
+// logout
+Route::post('/logout', [RegisterController::class, 'logout'])->name('logout')->middleware('auth');
+
+// dashboard
+Route::middleware('auth')->prefix('dashboard')->group(function () {
+
+    //dashboard
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [ProfileController::class, 'show'])->name('profile.show');
+        Route::post('/', [ProfileController::class, 'store'])->name('profile.store');
+        Route::get('/create', [ProfileController::class, 'create'])->name('profile.create');
+        Route::get('/edit', [ProfileController::class, 'edit'])->name('profile.edit');
+        Route::post('/update', [ProfileController::class, 'update'])->name('profile.update');
+        Route::delete('/avatar', [ProfileController::class, 'destroyAvatar'])->name('profile.avatar.destroy');
+        Route::delete('/delete', [ProfileController::class, 'destroyAccount'])->name('profile.delete');
+    });
+
+    Route::prefix('address')->group(function () {
         Route::resource('addresses', AddressController::class)
-            ->names('dashboard.addresses')
+            ->names('addresses')
             ->except(['show']);
     });
 });
 
+
+// pannel
 Route::middleware(['auth', 'is_admin'])->prefix('pannel')->group(function () {
     Route::get('/', [PannelController::class, 'index'])->name('pannel');
-    Route::resource('categories', CategoryController::class);
+
+    Route::resource('categories', CategoryController::class)->except(['create', 'show']);
+
+    Route::resource('tags', TagController::class)->except(['create', 'show']);
+
     Route::resource('products', ProductController::class);
-    Route::resource('products.variants', ProductVariantController::class);
-    Route::resource('attributes', AttributeController::class);
-    Route::resource('attributes.values', AttributeValueController::class);
 });
+
+
+// api
 
 Route::prefix('api')->group(function () {
     Route::get('/provinces', [AddressController::class, 'getProvinces']);
     Route::get('/cities/{province}', [AddressController::class, 'getCities']);
-
 });
+
+// error
+Route::fallback(function () {
+    return "404 page not found";
+});
+
+
+
+
+//     Route::post('/verify/resend', [RegisterController::class, 'resendOtp'])->name('verify.resend');

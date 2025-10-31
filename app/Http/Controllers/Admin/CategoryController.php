@@ -14,17 +14,9 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        $categories = Category::with('parent')->paginate(10);
-        return view('pages.admin.categories.index', compact('categories'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
         $parents = Category::all();
-        return view('pages.admin.categories.create', compact('parents'));
+        $categories = Category::with('parent')->paginate(10);
+        return view('pannel.pages.categories.index', compact('categories', 'parents'));
     }
 
     /**
@@ -52,10 +44,7 @@ class CategoryController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -70,7 +59,7 @@ class CategoryController extends Controller
 
         $parents = Category::whereNotIn('id', $invalidIds)->get();
 
-        return view('pages.admin.categories.edit', compact('category', 'parents'));
+        return view('pannel.pages.categories.edit', compact('category', 'parents'));
     }
 
 
@@ -115,7 +104,7 @@ class CategoryController extends Controller
             Storage::disk('public')->delete($category->image);
         }
 
-        
+
 
         $category->delete();
 

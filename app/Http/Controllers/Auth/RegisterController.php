@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+
+use App\Models\User;
+
+use App\Http\Controllers\Controller;
 
 class RegisterController extends Controller
 {
 
     public function showRegisterForm()
     {
-        return view('pages.auth.register');
+        return view('main.pages.auth.register');
     }
 
     public function register(Request $request)
@@ -27,119 +29,68 @@ class RegisterController extends Controller
 
         $phone = $this->normalizeIranianPhone($request->phone);
 
-        $otp = rand(10000, 99999);
+        // $otp = rand(10000, 99999);
 
         $user = User::create([
             'username' => $data['username'],
             'phone' => $phone,
             'password' => $data['password'],
-            'otp_code' => $otp,
-            'otp_expires_at' => Carbon::now()->addMinutes(3),
-        ]);
-
-        Session::put('verify_user_id', $user->id);
-        Log::info("OTP for {$user->phone} is: {$otp}");
-
-        return redirect()
-            ->route('verify.form')
-            ->with('status', 'کد تأیید به شماره تماس شما ارسال شد (در لاگ نمایش داده شده)');
-    }
-
-    public function showVerifyForm()
-    {
-        return view('pages.auth.verify');
-    }
-
-    public function verify(Request $request)
-    {
-        $request->validate([
-            'otp_code' => 'required|numeric'
-        ]);
-
-        $userId = Session::get('verify_user_id');
-        $user = User::find($userId);
-
-        if (!$user) {
-            $userId = Session::get('verify_user_id');
-            User::where('id', $userId)->delete();
-
-            Session::forget('verify_user_id');
-
-            return redirect()
-                ->route('register.form')
-                ->withErrors('اطلاعات قبلی شما منقضی شده است، لطفاً دوباره ثبت‌نام کنید.');
-        }
-
-        if ($user->otp_expires_at < now()) {
-            $newOtp = rand(10000, 99999);
-            $user->update([
-                'otp_code' => $newOtp,
-                'otp_expires_at' => now()->addMinutes(3),
-            ]);
-
-            Log::info("New OTP for {$user->phone} is: {$newOtp}");
-
-            return redirect()
-                ->route('verify.form')
-                ->withErrors('کد منقضی شده است، کد جدید برای شما ارسال شد (در لاگ نمایش داده شده)');
-        }
-
-        if ($user->otp_code != $request->otp_code) {
-            return back()->withErrors('کد وارد شده صحیح نیست.');
-        }
-
-        $user->update([
-            'otp_code' => null,
-            'otp_expires_at' => null,
+            // 'otp_code' => $otp,
+            // 'otp_expires_at' => Carbon::now()->addMinutes(3),
         ]);
 
         auth()->login($user);
 
-        Session::forget('verify_user_id');
+        // Session::put('verify_user_id', $user->id);
+        // Log::info("OTP for {$user->phone} is: {$otp}");
 
         return redirect()
-            ->route('dashboard')
-            ->with('success', 'ثبت‌نام شما با موفقیت انجام شد!');
+            ->route('home')
+            ->with('success', 'ثبت نام شما با موفقیت انجام شد');
     }
 
 
-    public function resendOtp(Request $request)
-    {
-        $userId = Session::get('verify_user_id');
-        $user = User::find($userId);
 
-        if (!$user) {
 
-            $userId = Session::get('verify_user_id');
-            User::where('id', $userId)->delete();
 
-            Session::forget('verify_user_id');
 
-            return redirect()
-                ->route('register.form')
-                ->withErrors('اطلاعات قبلی شما منقضی شده است، لطفاً دوباره ثبت‌نام کنید.');
-        }
-        if ($user->otp_expires_at > now()) {
-            $remaining = $user->otp_expires_at->diffInSeconds(now());
-            return back()->withErrors("لطفاً {$remaining} ثانیه دیگر برای ارسال مجدد صبر کنید.");
-        }
+    // public function resendOtp(Request $request)
+    // {
+    //     $userId = Session::get('verify_user_id');
+    //     $user = User::find($userId);
 
-        $newOtp = rand(10000, 99999);
+    //     if (!$user) {
 
-        $user->update([
-            'otp_code' => $newOtp,
-            'otp_expires_at' => now()->addMinutes(3),
-        ]);
+    //         $userId = Session::get('verify_user_id');
+    //         User::where('id', $userId)->delete();
 
-        Log::info("New OTP for {$user->phone} is: {$newOtp}");
+    //         Session::forget('verify_user_id');
 
-        return back()->with('status', 'کد تأیید جدید ارسال شد (در لاگ نمایش داده شده)');
-    }
+    //         return redirect()
+    //             ->route('register.form')
+    //             ->withErrors('اطلاعات قبلی شما منقضی شده است، لطفاً دوباره ثبت‌نام کنید.');
+    //     }
+    //     if ($user->otp_expires_at > now()) {
+    //         $remaining = $user->otp_expires_at->diffInSeconds(now());
+    //         return back()->withErrors("لطفاً {$remaining} ثانیه دیگر برای ارسال مجدد صبر کنید.");
+    //     }
+
+    //     $newOtp = rand(10000, 99999);
+
+    //     $user->update([
+    //         'otp_code' => $newOtp,
+    //         'otp_expires_at' => now()->addMinutes(3),
+    //     ]);
+
+    //     Log::info("New OTP for {$user->phone} is: {$newOtp}");
+
+    //     return back()->with('status', 'کد تأیید جدید ارسال شد (در لاگ نمایش داده شده)');
+    // }
 
 
     public function showLoginForm()
     {
-        return view('pages.auth.login');
+        return view('main.pages.auth.login');
     }
 
     public function login(Request $request)
@@ -158,7 +109,7 @@ class RegisterController extends Controller
                 return redirect()->route('pannel')->with('success', "مدیر گرامی {$user->username} خوش آمدید");
             }
 
-            return redirect()->route('dashboard')->with('success', "خوش آمدی {$user->username}");
+            // return redirect()->route('dashboard')->with('success', "خوش آمدی {$user->username}");
         }
 
         return back()->withErrors('نام کاربری یا رمز عبور اشتباه است.');
@@ -166,7 +117,7 @@ class RegisterController extends Controller
 
     public function showLoginOtpForm()
     {
-        return view('pages.auth.login-otp');
+        return view('main.pages.auth.login-otp');
     }
 
     public function loginWithOtp(Request $request)
@@ -225,6 +176,7 @@ class RegisterController extends Controller
         $user->update([
             'otp_code' => null,
             'otp_expires_at' => null,
+            'phone_verify' => true,
         ]);
 
         $user->touch();
@@ -241,15 +193,20 @@ class RegisterController extends Controller
 
     public function logout(Request $request)
     {
+        $phone_verify = auth()->user()->phone_verify;
+
         auth()->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
+        if (!$phone_verify) {
+            return redirect()->route('login.otp');
+        }
         return redirect()->route('login')->with('status', 'با موفقیت از حساب خود خارج شدید.');
     }
 
 
-    // helpers
+    // // helpers
     private function normalizeIranianPhone(string $phone): string
     {
         $phone = preg_replace('/\s+/', '', $phone);

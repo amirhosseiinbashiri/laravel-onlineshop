@@ -3,133 +3,179 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
 use App\Models\Product;
+use App\Models\Category;
+use App\Models\ProductImage;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * لیست محصولات
      */
     public function index()
     {
-        $products = Product::with('categories')
-            ->latest()
-            ->paginate(15);
-
-        return view('pages.admin.products.index', compact('products'));
+        $products = Product::with('category')->latest()->paginate(10);
+        return view('pannel.pages.products.index', compact('products'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * فرم ایجاد محصول
      */
     public function create()
     {
-        $categories = Category::all();
-        return view('pages.admin.products.create', compact('categories'));
+        $categories = Category::with('children')->whereNull('parent_id')->get();
+        $tags = Tag::all();
+
+        return view('pannel.pages.products.create', compact('categories', 'tags'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * ذخیره محصول جدید
      */
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'title'         => 'required|string|max:255',
-            'description'   => 'nullable|string',
-            'status'        => 'required|in:draft,published',
-            'base_price'    => 'nullable|numeric|min:0',
-            'price'         => 'nullable|numeric',
-            'sku'         => 'nullable|string',
-            'stock'         => 'nullable|integer|min:0',
-            'categories'    => 'nullable|array',
-            'type'    => 'required',
-            'image'         => 'nullable|image|max:2048',
-            'seo_title'     => 'nullable|string|max:255',
-            'seo_description' => 'nullable|string|max:255',
+            'title' => 'required|string|max:255',
+            'short_description' => 'nullable|string',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'discount_price' => 'nullable|numeric|min:0',
+            'discount_ends_at' => 'nullable|date',
+            'category_id' => 'nullable|exists:categories,id',
+            'main_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
         ]);
 
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('products', 'public');
+        // ذخیره عکس شاخص
+        if ($request->hasFile('main_image')) {
+            $validated['main_image'] = $request->file('main_image')->store('products', 'public');
+        }
+
+        // تولید slug در صورت نبود
+        if (empty($validated['slug'])) {
+            $validated['slug'] = Str::slug($validated['title']);
         }
 
         $product = Product::create($validated);
 
-        if ($request->categories) {
-            $product->categories()->sync($request->categories);
+        // ذخیره چند عکس
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $product->images()->create([
+                    'path' => $file->store('products/gallery', 'public'),
+                ]);
+            }
+        }
+
+        // اتصال تگ‌ها
+        if (!empty($validated['tags'])) {
+            $product->tags()->attach($validated['tags']);
         }
 
         return redirect()->route('products.index')->with('success', 'محصول با موفقیت ایجاد شد.');
     }
 
     /**
-     * Display the specified resource.
+     * فرم ویرایش
      */
-    public function show(string $id)
+    public function edit(Product $product)
     {
-        //
+        $categories = Category::with('children')->whereNull('parent_id')->get();
+        $tags = Tag::all();
+
+        return view('pannel.pages.products.edit', compact('product', 'categories', 'tags'));
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        $product = Product::findOrFail($id);
-        $categories = Category::all();
-        return view('pages.admin.products.edit', compact('product', 'categories'));
-    }
-
-    /**
-     * Update the specified resource in storage.
+     * بروزرسانی محصول
      */
     public function update(Request $request, Product $product)
     {
         $validated = $request->validate([
-            'title'         => 'required|string|max:255',
-            'description'   => 'nullable|string',
-            'status'        => 'required|in:draft,published',
-            'base_price'    => 'nullable|numeric|min:0',
-            'sku'         => 'nullable|string',
-            'price'         => 'nullable|numeric',
-            'stock'         => 'nullable|integer|min:0',
-            'categories'    => 'nullable|array',
-            'type'    => 'required',
-            'image'         => 'nullable|image|max:2048',
-            'seo_title'     => 'nullable|string|max:255',
-            'seo_description' => 'nullable|string|max:255',
+            'title' => 'required|string|max:255',
+            'short_description' => 'nullable|string',
+            'description' => 'nullable|string',
+            'price' => 'required|numeric|min:0',
+            'discount_price' => 'nullable|numeric|min:0',
+            'discount_ends_at' => 'nullable|date',
+            'category_id' => 'nullable|exists:categories,id',
+            'main_image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'tags' => 'nullable|array',
+            'tags.*' => 'exists:tags,id',
         ]);
 
 
-        if ($request->hasFile('image')) {
-            // حذف تصویر قبلی
-            if ($product->image && Storage::disk('public')->exists($product->image)) {
-                Storage::disk('public')->delete($product->image);
-            }
+        // 🖼 حذف تصویر شاخص
+        if ($request->has('remove_main_image') && $product->main_image) {
+            Storage::delete('public/' . $product->main_image);
+            $product->update(['main_image' => null]);
+        }
 
-            $validated['image'] = $request->file('image')->store('products', 'public');
+        // اگر عکس جدید آپلود شد، قبلی حذف شود
+        if ($request->hasFile('main_image')) {
+            if ($product->main_image) {
+                Storage::disk('public')->delete($product->main_image);
+            }
+            $validated['main_image'] = $request->file('main_image')->store('products', 'public');
         }
 
         $product->update($validated);
 
-        $product->categories()->sync($request->categories ?? []);
+        // 🗑 حذف تصاویر از گالری
+        if ($request->filled('remove_images')) {
+            $imagesToRemove = ProductImage::whereIn('id', $request->remove_images)->get();
+            foreach ($imagesToRemove as $img) {
+                Storage::delete('public/' . $img->path);
+                $img->delete();
+            }
+        }
 
-        return redirect()->route('products.index')->with('success', 'محصول با موفقیت به‌روزرسانی شد.');
+        // اضافه کردن عکس‌های جدید
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                $product->images()->create([
+                    'path' => $file->store('products/gallery', 'public'),
+                ]);
+            }
+        }
+
+        // 🏷 بروزرسانی تگ‌ها
+        if ($request->filled('tags')) {
+            $product->tags()->sync($request->tags);
+        } else {
+            $product->tags()->detach();
+        }
+
+        return redirect()->route('products.index')->with('success', 'محصول با موفقیت بروزرسانی شد.');
     }
 
 
+    public function show(Product $product)
+    {
+        $product->load(['comments.replies.user', 'comments.user']);
+
+        return view('pages.products.show', compact('product'));
+    }
     /**
-     * Remove the specified resource from storage.
+     * حذف محصول
      */
     public function destroy(Product $product)
     {
-        if ($product->image && Storage::disk('public')->exists($product->image)) {
-            Storage::disk('public')->delete($product->image);
+        if ($product->main_image) {
+            Storage::disk('public')->delete($product->main_image);
         }
 
-        $product->categories()->detach();
+        foreach ($product->images as $image) {
+            Storage::disk('public')->delete($image->path);
+        }
+
         $product->delete();
 
         return redirect()->route('products.index')->with('success', 'محصول حذف شد.');

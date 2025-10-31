@@ -15,6 +15,7 @@ class User extends Authenticatable
         'phone',
         'is_admin',
         'otp_code',
+        'phone_verify',
         'otp_expires_at',
     ];
 
@@ -29,6 +30,7 @@ class User extends Authenticatable
             'is_admin' => 'boolean',
             'otp_expires_at' => 'datetime',
             'password' => 'hashed',
+            'phone_verify' => 'boolean',
         ];
     }
 
@@ -40,5 +42,10 @@ class User extends Authenticatable
     public function addresses()
     {
         return $this->hasMany(Address::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
     }
 }
