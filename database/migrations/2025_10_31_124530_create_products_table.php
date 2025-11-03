@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('price', 12, 2);
             $table->decimal('discount_price', 12, 2)->nullable();
             $table->timestamp('discount_ends_at')->nullable();
-            $table->foreignId('category_id')->constrained()->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignId('category_id')->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
             $table->string('main_image')->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();

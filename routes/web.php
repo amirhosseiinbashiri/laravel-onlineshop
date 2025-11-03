@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\PannelController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\Dashboard\AddressController;
 use App\Http\Controllers\Dashboard\DashboardController;
@@ -21,8 +22,20 @@ Route::prefix('test')->group(function () {
 
 Route::prefix('/')->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
+    Route::get('/about', [HomeController::class, 'about'])->name('about');
     Route::get('/category/{category:slug}', [HomeController::class, 'category'])->name('category');
+    Route::get('/products', [HomeController::class, 'products'])->name('products');
+    Route::get('/product/{product:slug}', [HomeController::class, 'product'])->name('product');
 });
+
+Route::prefix('cart')->group(function() {
+    Route::get('/', [CartController::class, 'index'])->name('cart.index');
+    Route::post('/add', [CartController::class, 'add'])->name('cart.add');
+    Route::post('/update', [CartController::class, 'update'])->name('cart.update');
+    Route::delete('/{product}', [CartController::class, 'remove'])->name('cart.remove');
+    Route::post('/clear', [CartController::class, 'clear'])->name('cart.clear');
+});
+
 
 // auth
 Route::middleware('guest')->group(function () {

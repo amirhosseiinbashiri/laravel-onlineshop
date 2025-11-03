@@ -14,7 +14,7 @@
         @if ($categories->isEmpty())
             <p class="text-gray-500 text-center py-10">هیچ دسته‌ای وجود ندارد.</p>
         @else
-            <div class="overflow-x-auto rounded-lg border border-gray-200">
+            <div class="overflow-x-auto rounded-lg border border-gray-200 mb-2">
                 <table class="min-w-full divide-y divide-gray-200 text-sm text-right">
                     <thead class="bg-gray-100 text-gray-700 font-semibold">
                         <tr>
@@ -52,6 +52,10 @@
                     </tbody>
                 </table>
             </div>
+            
+                {{ $categories->links() }}
+
+
         @endif
     </div>
 

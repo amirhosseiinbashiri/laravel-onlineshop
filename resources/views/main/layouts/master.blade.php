@@ -13,9 +13,12 @@
 
 <body>
     @include('components.alerts')
-    @include('main.components.header')
-    @yield('content')
-    @include('main.components.footer')
+    <div class="min-h-screen max-w-[1260px] mx-auto">
+        @include('main.components.header')
+        @include('main.components.categories')
+        @yield('content')
+    </div>
+    @include('main.components.footer') 
     @yield('script')
 </body>
 
