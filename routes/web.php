@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Admin\ArchiveController;
+use App\Http\Controllers\Admin\BlogController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\PannelController;
+use App\Http\Controllers\Admin\PinController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\TagController;
 use App\Http\Controllers\Auth\RegisterController;
@@ -26,9 +29,11 @@ Route::prefix('/')->group(function () {
     Route::get('/category/{category:slug}', [HomeController::class, 'category'])->name('category');
     Route::get('/products', [HomeController::class, 'products'])->name('products');
     Route::get('/product/{product:slug}', [HomeController::class, 'product'])->name('product');
+    Route::get('/blogs', [HomeController::class, 'blogs'])->name('blogs');
+    Route::get('/blog/{slug}', [HomeController::class, 'blog'])->name('blog');
 });
 
-Route::prefix('cart')->group(function() {
+Route::prefix('cart')->group(function () {
     Route::get('/', [CartController::class, 'index'])->name('cart.index');
     Route::post('/add', [CartController::class, 'add'])->name('cart.add');
     Route::post('/update', [CartController::class, 'update'])->name('cart.update');
@@ -96,6 +101,10 @@ Route::middleware(['auth', 'is_admin'])->prefix('pannel')->group(function () {
     Route::resource('tags', TagController::class)->except(['create', 'show']);
 
     Route::resource('products', ProductController::class);
+
+    Route::resource('blogs', BlogController::class);
+    Route::resource('archives', ArchiveController::class);
+    Route::resource('pins', PinController::class);
 });
 
 

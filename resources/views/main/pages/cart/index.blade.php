@@ -27,25 +27,25 @@
                             </td>
                             <td class="p-2 border">{{ number_format($item['price']) }} تومان</td>
                             <td class="p-2 border flex items-center gap-2">
-    {{-- دکمه کاهش --}}
-    <form action="{{ route('cart.update') }}" method="POST">
-        @csrf
-        <input type="hidden" name="product_id" value="{{ $id }}">
-        <input type="hidden" name="quantity" value="{{ max($item['quantity'] - 1, 1) }}">
-        <button type="submit" class="bg-gray-300 px-2 rounded hover:bg-gray-400">-</button>
-    </form>
+                                {{-- دکمه کاهش --}}
+                                <form action="{{ route('cart.update') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $id }}">
+                                    <input type="hidden" name="quantity" value="{{ max($item['quantity'] - 1, 1) }}">
+                                    <button type="submit" class="bg-gray-300 px-2 rounded hover:bg-gray-400">-</button>
+                                </form>
 
-    {{-- تعداد فعلی --}}
-    <span class="px-2">{{ $item['quantity'] }}</span>
+                                {{-- تعداد فعلی --}}
+                                <span class="px-2">{{ $item['quantity'] }}</span>
 
-    {{-- دکمه افزایش --}}
-    <form action="{{ route('cart.update') }}" method="POST">
-        @csrf
-        <input type="hidden" name="product_id" value="{{ $id }}">
-        <input type="hidden" name="quantity" value="{{ $item['quantity'] + 1 }}">
-        <button type="submit" class="bg-gray-300 px-2 rounded hover:bg-gray-400">+</button>
-    </form>
-</td>
+                                {{-- دکمه افزایش --}}
+                                <form action="{{ route('cart.update') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{ $id }}">
+                                    <input type="hidden" name="quantity" value="{{ $item['quantity'] + 1 }}">
+                                    <button type="submit" class="bg-gray-300 px-2 rounded hover:bg-gray-400">+</button>
+                                </form>
+                            </td>
 
                             <td class="p-2 border">{{ number_format($item['price'] * $item['quantity']) }} تومان</td>
                             <td class="p-2 border">

@@ -6,6 +6,7 @@
             <a href="{{ route('home') }}" class="text-md font-bold text-gray-700 cursor-pointer hover:text-black transition-colors duration-300">خانه</a>
             <a href="{{ route('about') }}" class="text-md font-bold text-gray-700 cursor-pointer hover:text-black transition-colors duration-300">درباره ما</a>
             <a href="{{ route('products') }}" class="text-md font-bold text-gray-700 cursor-pointer hover:text-black transition-colors duration-300">محصولات</a>
+            <a href="{{ route('blogs') }}" class="text-md font-bold text-gray-700 cursor-pointer hover:text-black transition-colors duration-300">بلاگ</a>
             <a href="{{ route('cart.index') }}" class="text-md font-bold text-gray-700 cursor-pointer hover:text-black transition-colors duration-300">سبد خرید</a>
         </div>
     </div>

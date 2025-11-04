@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Archive;
+use App\Models\Blog;
 use Illuminate\Http\Request;
 use App\Models\Category;
+use App\Models\Pin;
 use App\Models\Product;
 
 class HomeController extends Controller
@@ -94,5 +97,52 @@ class HomeController extends Controller
         }
 
         return $ids;
+    }
+
+    // صفحه لیست بلاگ‌ها
+    public function blogs(Request $request)
+    {
+        $query = Blog::with('archive', 'pins', 'author')
+            ->where('is_published', true)
+            ->latest();
+
+        // فیلتر بر اساس دسته (آرشیو)
+        if ($request->has('archive')) {
+            $query->whereHas('archive', function ($q) use ($request) {
+                $q->where('slug', $request->archive);
+            });
+        }
+
+        // فیلتر بر اساس پین (تگ)
+        if ($request->has('pin')) {
+            $query->whereHas('pins', function ($q) use ($request) {
+                $q->where('slug', $request->pin);
+            });
+        }
+
+        $blogs = $query->paginate(9);
+        $archives = Archive::all();
+        $pins = Pin::all();
+
+        return view('main.pages.blogs', compact('blogs', 'archives', 'pins'));
+    }
+
+    // صفحه تکی بلاگ
+    public function blog($slug)
+    {
+        $blog = Blog::with('archive', 'pins', 'author')
+            ->where('slug', $slug)
+            ->where('is_published', true)
+            ->firstOrFail();
+
+        // پیشنهاد بلاگ‌های مشابه از همان دسته
+        $relatedBlogs = Blog::where('archive_id', $blog->archive_id)
+            ->where('id', '!=', $blog->id)
+            ->where('is_published', true)
+            ->latest()
+            ->take(3)
+            ->get();
+
+        return view('main.pages.blog', compact('blog', 'relatedBlogs'));
     }
 }

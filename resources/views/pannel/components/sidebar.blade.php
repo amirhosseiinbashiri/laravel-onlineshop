@@ -14,6 +14,15 @@
             <a href="{{ route('products.index') }}"
                 class="transition-all duration-300 border-r-2 border-amber-400 text-center font-semibold block px-3 py-2 rounded-lg text-gray-700 hover:bg-amber-500 hover:text-white">
                 محصولات </a>
+            <a href="{{ route('archives.index') }}"
+                class="transition-all duration-300 border-r-2 border-amber-400 text-center font-semibold block px-3 py-2 rounded-lg text-gray-700 hover:bg-amber-500 hover:text-white">
+                آرشیو </a>
+            <a href="{{ route('pins.index') }}"
+                class="transition-all duration-300 border-r-2 border-amber-400 text-center font-semibold block px-3 py-2 rounded-lg text-gray-700 hover:bg-amber-500 hover:text-white">
+                پین </a>
+            <a href="{{ route('blogs.index') }}"
+                class="transition-all duration-300 border-r-2 border-amber-400 text-center font-semibold block px-3 py-2 rounded-lg text-gray-700 hover:bg-amber-500 hover:text-white">
+                مقالات </a>
         </nav>
 
         <div class="p-4">
