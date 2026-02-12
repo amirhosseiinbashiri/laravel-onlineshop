@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>صفحه محصول | فروشگاه بالشت طبی</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: 'Vazirmatn', sans-serif;
+      }
+    </style>
+  </head>
+
+  <body class="bg-gray-50 text-gray-800">
+    <!-- هدر -->
+    <header class="bg-white shadow sticky top-0 z-50">
+      <div class="container mx-auto px-4">
+        <nav class="flex items-center justify-between py-4">
+          <a href="index.html">
+            <img src="img/logo.png" alt="لوگو" class="w-32" />
+          </a>
+          <ul class="hidden lg:flex items-center gap-6 font-medium">
+            <li><a href="index.html" class="hover:text-blue-600">صفحه اصلی</a></li>
+            <li><a href="about.html" class="hover:text-blue-600">درباره ما</a></li>
+            <li class="relative group">
+              <a href="#" class="flex items-center hover:text-blue-600">
+                محصولات <i class="ml-1 fas fa-chevron-down text-sm"></i>
+              </a>
+              <div
+                class="absolute right-0 hidden group-hover:block bg-white shadow-lg rounded-lg mt-2 w-40"
+              >
+                <a
+                  href="product_list.html"
+                  class="block px-4 py-2 hover:bg-gray-100"
+                  >لیست محصولات</a
+                >
+                <a
+                  href="single-product.html"
+                  class="block px-4 py-2 hover:bg-gray-100"
+                  >جزئیات محصول</a
+                >
+              </div>
+            </li>
+            <li><a href="blog.html" class="hover:text-blue-600">وبلاگ</a></li>
+            <li><a href="contact.html" class="hover:text-blue-600">تماس با ما</a></li>
+          </ul>
+          <div class="flex items-center gap-4">
+            <a href="#" class="text-gray-600 hover:text-blue-600"
+              ><i class="ti-search"></i
+            ></a>
+            <a href="cart.html" class="text-gray-600 hover:text-blue-600"
+              ><i class="flaticon-shopping-cart-black-shape"></i
+            ></a>
+          </div>
+        </nav>
+      </div>
+    </header>
+
+    <!-- بنر -->
+    <section
+      class="bg-gradient-to-l from-blue-50 to-blue-100 py-12 text-center shadow-inner"
+    >
+      <h2 class="text-3xl font-bold text-gray-800">صفحه محصول</h2>
+      <p class="text-gray-600 mt-2">جزئیات محصول انتخابی شما</p>
+    </section>
+
+    <!-- محصول -->
+    <section class="py-16">
+      <div class="container mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
+        <!-- گالری -->
+        <div class="flex flex-col gap-4">
+          <div
+            class="bg-white rounded-2xl shadow-lg p-6 flex justify-center items-center"
+          >
+            <img
+              src="img/product/single_product.png"
+              alt="محصول"
+              class="max-h-96 object-contain"
+            />
+          </div>
+          <div class="flex gap-3 justify-center">
+            <img
+              src="img/product/single_product.png"
+              class="w-24 h-24 rounded-xl border border-gray-300 p-1 cursor-pointer hover:border-blue-500"
+            />
+            <img
+              src="img/product/single_product.png"
+              class="w-24 h-24 rounded-xl border border-gray-300 p-1 cursor-pointer hover:border-blue-500"
+            />
+            <img
+              src="img/product/single_product.png"
+              class="w-24 h-24 rounded-xl border border-gray-300 p-1 cursor-pointer hover:border-blue-500"
+            />
+          </div>
+        </div>
+
+        <!-- جزئیات -->
+        <div class="bg-white p-8 rounded-2xl shadow text-center">
+          <h3 class="text-2xl font-bold mb-4">بالشتک‌های طبی از جنس فوم</h3>
+          <p class="text-gray-600 leading-relaxed mb-6">
+            این محصول مناسب افرادی است که سابقه درد گردن دارند. طراحی آن باعث کاهش
+            فشار در ناحیه گردن و شانه می‌شود و از جنس فوم طبی با کیفیت بالاست.
+          </p>
+
+          <div
+            class="flex items-center justify-center gap-6 text-gray-700 mb-6 flex-wrap"
+          >
+            <div class="flex items-center gap-3">
+              <span>تعداد:</span>
+              <div class="flex border rounded-lg overflow-hidden">
+                <button
+                  class="px-3 py-1 bg-gray-100 hover:bg-gray-200 font-bold"
+                  onclick="decreaseCount()"
+                >
+                  -
+                </button>
+                <input
+                  id="count"
+                  type="number"
+                  value="1"
+                  min="1"
+                  class="w-12 text-center outline-none"
+                />
+                <button
+                  class="px-3 py-1 bg-gray-100 hover:bg-gray-200 font-bold"
+                  onclick="increaseCount()"
+                >
+                  +
+                </button>
+              </div>
+            </div>
+            <p class="font-semibold text-lg">۱۵,۰۰۰ تومان</p>
+          </div>
+
+          <button
+            class="bg-blue-600 hover:bg-blue-700 text-white px-10 py-3 rounded-xl transition font-semibold"
+          >
+            افزودن به سبد خرید
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- اشتراک خبرنامه -->
+    <section class="bg-blue-600 text-white py-16 text-center">
+      <div class="container mx-auto px-4">
+        <h2 class="text-3xl font-bold mb-4">به‌روزرسانی و اخبار جدید!</h2>
+        <p class="mb-8">
+          با ثبت ایمیل خود، از محصولات و تخفیف‌های جدید مطلع شوید.
+        </p>
+        <form
+          class="flex flex-col sm:flex-row justify-center items-center gap-3 max-w-lg mx-auto"
+        >
+          <input
+            type="email"
+            placeholder="ایمیل خود را وارد کنید"
+            class="w-full sm:flex-1 px-4 py-2 rounded-xl text-gray-800 outline-none"
+          />
+          <button
+            type="submit"
+            class="bg-white text-blue-600 px-6 py-2 rounded-xl hover:bg-gray-100 font-semibold"
+          >
+            عضویت
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- فوتر -->
+    <footer class="bg-gray-900 text-gray-300 py-10">
+      <div
+        class="container mx-auto px-4 flex flex-col lg:flex-row justify-between items-center gap-6"
+      >
+        <div class="flex items-center gap-8">
+          <img src="img/logo.png" alt="لوگو" class="w-28" />
+          <nav class="flex gap-4 text-sm">
+            <a href="index.html" class="hover:text-white">صفحه اصلی</a>
+            <a href="product_list.html" class="hover:text-white">محصولات</a>
+            <a href="blog.html" class="hover:text-white">وبلاگ</a>
+            <a href="contact.html" class="hover:text-white">تماس با ما</a>
+          </nav>
+        </div>
+        <div class="flex gap-4 text-xl">
+          <a href="#" class="hover:text-white"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" class="hover:text-white"><i class="fab fa-instagram"></i></a>
+          <a href="#" class="hover:text-white"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+      <div class="text-center text-sm text-gray-500 mt-6">
+        © <span id="year"></span> تمامی حقوق محفوظ است | طراحی با ❤️ توسط Tailwind
+      </div>
+      <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+        function increaseCount() {
+          const input = document.getElementById('count');
+          input.value = parseInt(input.value) + 1;
+        }
+        function decreaseCount() {
+          const input = document.getElementById('count');
+          if (input.value > 1) input.value = parseInt(input.value) - 1;
+        }
+      </script>
+    </footer>
+  </body>
+</html>
